@@ -20,4 +20,4 @@ script:
   - docker images
   - docker run $DOCKER_USER/$DOCKER_IMAGE:travis-$DOCKER_IMAGE google.com
   - docker run $DOCKER_USER/$DOCKER_IMAGE:latest facebook.com
-  - docker run $GITLAB_REG_UR/$GITLAB_REG_USER/$GITLAB_REG_IMAGE:latest microsoft.com
+  - docker run $GITLAB_REG_URL/$GITLAB_REG_USER/$GITLAB_REG_IMAGE:latest microsoft.com
