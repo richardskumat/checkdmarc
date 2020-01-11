@@ -1,4 +1,3 @@
-#FROM python:3.7-buster
 FROM debian:buster-slim
 RUN useradd -K UID_MIN=2600 -K UID_MAX=3000 -m -s /bin/bash user
 RUN apt-get update && \
