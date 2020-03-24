@@ -5,9 +5,6 @@ env:
   global:
     - DOCKER_USER: qwe1
     - DOCKER_IMAGE: checkdmarc
-    - GITLAB_REG_URL: registry.gitlab.com
-    - GITLAB_REG_USER: richardskumat
-    - GITLAB_REG_IMAGE: checkdmarc
   #matrix:
   #  - whatever
 
@@ -20,4 +17,3 @@ script:
   - docker images
   - docker run --rm $DOCKER_USER/$DOCKER_IMAGE:travis-$DOCKER_IMAGE google.com
   - docker run --rm $DOCKER_USER/$DOCKER_IMAGE:latest facebook.com
-  - docker run --rm $GITLAB_REG_URL/$GITLAB_REG_USER/$GITLAB_REG_IMAGE:latest microsoft.com

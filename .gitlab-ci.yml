@@ -1,12 +1,7 @@
 image: docker:stable
 
 variables:
-  # https://about.gitlab.com/blog/2019/07/31/docker-in-docker-with-docker-19-dot-03/
   DOCKER_DRIVER: overlay2
-  # Create the certificates inside this directory for both the server
-  # and client. The certificates used by the client will be created in
-  # /certs/client so we only need to share this directory with the
-  # volume mount in `config.toml`.
   DOCKER_TLS_CERTDIR: "/certs"
 
 services:
@@ -39,10 +34,6 @@ push_to_dockerhub:
    - docker push $DOCKERHUB_USER/$DOCKERHUB_PROJECT:latest
    - docker push $DOCKERHUB_USER/$DOCKERHUB_PROJECT:$CI_COMMIT_SHA
    - docker push $DOCKERHUB_USER/$DOCKERHUB_PROJECT:$DATE
-   - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" "$CI_REGISTRY" --password-stdin
-   - docker push $CI_REGISTRY_IMAGE:latest
-   - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
-   - docker push $CI_REGISTRY_IMAGE:$DATE
 
 test_docker_images:
   stage: test
@@ -50,4 +41,3 @@ test_docker_images:
    - master
   script:
     - docker run --rm $DOCKERHUB_USER/$DOCKERHUB_PROJECT:$CI_COMMIT_SHA google.com
-    - docker run --rm $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA facebook.com
