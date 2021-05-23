@@ -26,10 +26,6 @@ Github
 
 https://github.com/richardskumat/checkdmarc
 
-Travis
-
-https://travis-ci.org/richardskumat/checkdmarc
-
 Dockerhub
 
 https://hub.docker.com/r/qwe1/checkdmarc
