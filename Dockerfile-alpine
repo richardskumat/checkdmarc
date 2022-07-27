@@ -1,4 +1,4 @@
-FROM python:3.10-alpine
+FROM python:3.16-alpine
 RUN pip3 install checkdmarc && rm -rf /root/.cache
 RUN adduser -H -D qwe
 USER qwe
