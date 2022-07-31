@@ -63,4 +63,4 @@ test_docker_images:
    - master
   script:
     - docker run --rm $DOCKERHUB_USER/$DOCKERHUB_PROJECT:$CI_COMMIT_SHA google.com
-    - docker run --rm $DOCKERHUB_USER/$DOCKERHUB_PROJECT:$CI_COMMIT_SHORT_SHA-alpine fb.com
+    - docker run --rm $DOCKERHUB_USER/$DOCKERHUB_PROJECT:$CI_COMMIT_SHA-alpine fb.com
