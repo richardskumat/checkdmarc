@@ -1,6 +1,6 @@
-image: qwe1/debdocker:23.0
+image: docker.io/qwe1/debdocker:23.0
 services:
-  - name: docker:23.0-dind
+  - name: docker.io/library/docker:23.0-dind
     command: ["--experimental"]
 
 variables:
