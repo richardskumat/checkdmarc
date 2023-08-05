@@ -1,0 +1,8 @@
+FROM alpine:3.18
+RUN apk add --no-cache py3-pip
+RUN pip3 install checkdmarc && \
+    rm -rf /root/.cache && \
+    apk del -r py3-pip
+RUN adduser -H -D qwe
+USER qwe
+ENTRYPOINT [ "checkdmarc" ]

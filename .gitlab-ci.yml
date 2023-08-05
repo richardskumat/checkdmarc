@@ -42,11 +42,8 @@ build:
   stage: build
   script:
     # https://docs.gitlab.com/ee/ci/variables/predefined_variables.html
-    # - docker buildx build --push -t qwe1/playground:latest -t qwe1/playground:$CI_COMMIT_SHORT_SHA -f Dockerfile --platform linux/amd64,linux/386,linux/arm/v7,linux/arm64 .
-    - docker buildx build --load -t $DOCKERHUB_USER/$DOCKERHUB_PROJECT:$CI_COMMIT_SHORT_SHA -f Dockerfile --platform linux/amd64 .
     - docker buildx build --load -t $DOCKERHUB_USER/$DOCKERHUB_PROJECT:$CI_COMMIT_SHORT_SHA-alpine -f Dockerfile-alpine --platform linux/amd64 .
     - docker images
-    - docker run --rm $DOCKERHUB_USER/$DOCKERHUB_PROJECT:$CI_COMMIT_SHORT_SHA google.com
     - docker run --rm $DOCKERHUB_USER/$DOCKERHUB_PROJECT:$CI_COMMIT_SHORT_SHA-alpine fb.com
 
 push_to_dockerhub:
@@ -54,13 +51,11 @@ push_to_dockerhub:
  only:
    - master
  script:
-   - docker buildx build --push -t $DOCKERHUB_USER/$DOCKERHUB_PROJECT:latest-debian -t $DOCKERHUB_USER/$DOCKERHUB_PROJECT:$CI_COMMIT_SHA -t $DOCKERHUB_USER/$DOCKERHUB_PROJECT:$DATE -f Dockerfile --platform linux/amd64,linux/arm/v7,linux/arm64 .
-   - docker buildx build --push -t $DOCKERHUB_USER/$DOCKERHUB_PROJECT:latest -t $DOCKERHUB_USER/$DOCKERHUB_PROJECT:$CI_COMMIT_SHA-alpine -t $DOCKERHUB_USER/$DOCKERHUB_PROJECT:$DATE-alpine -t $DOCKERHUB_USER/$DOCKERHUB_PROJECT:alpine -f Dockerfile --platform linux/amd64,linux/arm/v7,linux/arm64 .
+   - docker buildx build --push -f Dockerfile-alpine -t $DOCKERHUB_USER/$DOCKERHUB_PROJECT:latest -t $DOCKERHUB_USER/$DOCKERHUB_PROJECT:$CI_COMMIT_SHA-alpine -t $DOCKERHUB_USER/$DOCKERHUB_PROJECT:$DATE-alpine -t $DOCKERHUB_USER/$DOCKERHUB_PROJECT:alpine --platform linux/amd64,linux/arm/v7,linux/arm64 .
 
 test_docker_images:
   stage: test
   only:
    - master
   script:
-    - docker run --rm $DOCKERHUB_USER/$DOCKERHUB_PROJECT:$CI_COMMIT_SHA google.com
     - docker run --rm $DOCKERHUB_USER/$DOCKERHUB_PROJECT:$CI_COMMIT_SHA-alpine fb.com
