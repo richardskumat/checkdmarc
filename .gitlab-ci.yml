@@ -37,6 +37,7 @@ before_script:
   - docker buildx inspect --bootstrap whatever
   - docker buildx ls
   - echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USER" --password-stdin
+  - apt-get install gcc git -y
 
 build:
   stage: build
