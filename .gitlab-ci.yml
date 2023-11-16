@@ -37,7 +37,6 @@ before_script:
   - docker buildx inspect --bootstrap whatever
   - docker buildx ls
   - echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USER" --password-stdin
-  - apt-get install gcc git gcc-arm-linux-gnueabihf -y
 
 build:
   stage: build
@@ -52,7 +51,7 @@ push_to_dockerhub:
  only:
    - master
  script:
-   - docker buildx build --push -f Dockerfile -t $DOCKERHUB_USER/$DOCKERHUB_PROJECT:latest -t $DOCKERHUB_USER/$DOCKERHUB_PROJECT:$CI_COMMIT_SHA -t $DOCKERHUB_USER/$DOCKERHUB_PROJECT:$DATE -t $DOCKERHUB_USER/$DOCKERHUB_PROJECT --platform linux/amd64,linux/arm/v7,linux/arm64 .
+   - docker buildx build --push -f Dockerfile -t $DOCKERHUB_USER/$DOCKERHUB_PROJECT:latest -t $DOCKERHUB_USER/$DOCKERHUB_PROJECT:$CI_COMMIT_SHA -t $DOCKERHUB_USER/$DOCKERHUB_PROJECT:$DATE -t $DOCKERHUB_USER/$DOCKERHUB_PROJECT --platform linux/amd64,linux/arm64 .
 
 test_docker_images:
   stage: test
