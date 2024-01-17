@@ -37,12 +37,18 @@ before_script:
   - docker buildx inspect --bootstrap whatever
   - docker buildx ls
   - echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USER" --password-stdin
+  - export CDM_VERSION="$(grep 'ENV CDM_VERSION' Dfa | awk -F'=' '{print $2}')"
 
 build:
   stage: build
   script:
     # https://docs.gitlab.com/ee/ci/variables/predefined_variables.html
-    - docker buildx build --load -t $DOCKERHUB_USER/$DOCKERHUB_PROJECT:$CI_COMMIT_SHORT_SHA -f Dockerfile --platform linux/amd64 .
+    # https://docs.gitlab.com/ee/ci/yaml/script.html
+    - >
+      docker buildx build --load
+      -t $DOCKERHUB_USER/$DOCKERHUB_PROJECT:$CI_COMMIT_SHORT_SHA
+      -t $DOCKERHUB_USER/$DOCKERHUB_PROJECT:$CDM_VERSION
+      -f Dfa --platform linux/amd64 .
     - docker images
     - docker run --rm $DOCKERHUB_USER/$DOCKERHUB_PROJECT:$CI_COMMIT_SHORT_SHA fb.com
 
@@ -51,7 +57,14 @@ push_to_dockerhub:
  only:
    - master
  script:
-   - docker buildx build --push -f Dockerfile -t $DOCKERHUB_USER/$DOCKERHUB_PROJECT:latest -t $DOCKERHUB_USER/$DOCKERHUB_PROJECT:$CI_COMMIT_SHA -t $DOCKERHUB_USER/$DOCKERHUB_PROJECT:$DATE -t $DOCKERHUB_USER/$DOCKERHUB_PROJECT --platform linux/amd64,linux/arm64 .
+   # https://docs.gitlab.com/ee/ci/yaml/script.html
+   - >
+     docker buildx build --push -f Dfa
+     -t $DOCKERHUB_USER/$DOCKERHUB_PROJECT:latest
+     -t $DOCKERHUB_USER/$DOCKERHUB_PROJECT:$CI_COMMIT_SHA
+     -t $DOCKERHUB_USER/$DOCKERHUB_PROJECT:$DATE
+     -t $DOCKERHUB_USER/$DOCKERHUB_PROJECT:$CDM_VERSION
+     --platform linux/amd64,linux/arm64 .
 
 test_docker_images:
   stage: test

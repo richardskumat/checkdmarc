@@ -1,5 +1,0 @@
-FROM python:3.11-alpine
-RUN pip3 install checkdmarc && rm -rf /root/.cache
-RUN adduser -H -D qwe
-USER qwe
-ENTRYPOINT [ "checkdmarc" ]
