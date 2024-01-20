@@ -1,6 +1,6 @@
 FROM alpine:3.18
 ENV CDM_VERSION=5.3.1
-RUN apk add --no-cache py3-pip python3
+RUN apk add --no-cache py3-pip python3 gcc
 RUN pip3 install checkdmarc=="${CDM_VERSION}" && \
     rm -rf /root/.cache && \
     apk del -r py3-pip
